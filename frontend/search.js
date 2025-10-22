@@ -1,4 +1,5 @@
-const apiKey = "06ccaa57f140ada11e68d82ac66e5b65";
+// TMBID API Key (Replace with your own key)
+const apiKey = "06ccaa57f140ada11e68d82ac66e5b65"; 
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const resultsContainer = document.getElementById("resultsContainer");

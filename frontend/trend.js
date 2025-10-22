@@ -1,3 +1,4 @@
+// TMBID API Key (Replace with your own key)
 const apiKey = "06ccaa57f140ada11e68d82ac66e5b65";
 const trendingContainer = document.getElementById("trendingContainer");
 const popularContainer = document.getElementById("popularContainer");
