@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Results</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <div class="logo">Movie Explorer</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="tv.html">TV</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="watchlist.html">Watch List</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="search.html">🔎</a>
+      <div class="profile">?</div>
+    </div>
+  </nav>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input id="searchInput" type="text" placeholder="Search for a movie, TV show..." />
+    <button id="searchBtn">Search</button>
+  </div>
+
+  <!-- Results Section -->
+  <section class="section search-results">
+    <h2>Search Results</h2>
+    <div id="resultsContainer" class="movies"></div>
+  </section>
+
+  <script src="search.js"></script>
+</body>
+</html>
