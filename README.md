@@ -1,8 +1,11 @@
-#Go to frontend folder
-cd front end 
+## Go to frontend folder 
 
-#Install dependencies
+cd frontend 
+
+## Install dependencies
+
 npm i 
 
-#Run the project
+## Run the project
+
 npm run dev
