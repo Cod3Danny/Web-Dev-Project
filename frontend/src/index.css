@@ -283,3 +283,12 @@ nav .profile:hover {
   padding: 10px;
   font-size: 1em;
 }
+
+.error-page 
+{
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
