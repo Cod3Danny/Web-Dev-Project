@@ -10,6 +10,7 @@ const Navbar = () => {
                 <li><a href="watchlist">Watch List</a></li>
             </ul>
             <div className="nav-right">
+                <a href="/search" className="icon">🔍</a>
                 <div className="profile">?</div>
             </div>
         </nav>
