@@ -1,4 +1,4 @@
-// TMBID API Key (Replace with your own key)
+// TMDb API Key
 const apiKey = "06ccaa57f140ada11e68d82ac66e5b65"; 
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
@@ -19,7 +19,7 @@ function displayMovies(movies) {
   movies.forEach(movie => {
     const imgSrc = movie.poster_path
       ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
-      : "placeholder.jpg";
+      : "https://via.placeholder.com/300x450/2a2a2a/ffffff?text=No+Poster";
 
     const card = document.createElement("div");
     card.classList.add("movie-card");
@@ -27,6 +27,13 @@ function displayMovies(movies) {
       <img src="${imgSrc}" alt="${movie.title}">
       <h3>${movie.title || movie.name}</h3>
     `;
+    
+    // Make card clickable - OPEN MODAL
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      showMovieModal(movie.id);
+    });
+    
     resultsContainer.appendChild(card);
   });
 }
@@ -34,4 +41,12 @@ function displayMovies(movies) {
 searchBtn.addEventListener("click", () => {
   const query = searchInput.value.trim();
   if (query) searchMovies(query);
+});
+
+// Allow Enter key to trigger search
+searchInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    const query = searchInput.value.trim();
+    if (query) searchMovies(query);
+  }
 });

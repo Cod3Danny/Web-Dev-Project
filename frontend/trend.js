@@ -1,4 +1,4 @@
-// TMBID API Key (Replace with your own key)
+// TMDb API Key
 const apiKey = "06ccaa57f140ada11e68d82ac66e5b65";
 const trendingContainer = document.getElementById("trendingContainer");
 const popularContainer = document.getElementById("popularContainer");
@@ -31,7 +31,7 @@ function displayMovies(movies, container) {
   movies.forEach(movie => {
     const imgSrc = movie.poster_path
       ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
-      : "placeholder.jpg";
+      : "https://via.placeholder.com/300x450/2a2a2a/ffffff?text=No+Poster";
 
     const card = document.createElement("div");
     card.classList.add("movie-card");
@@ -39,6 +39,13 @@ function displayMovies(movies, container) {
       <img src="${imgSrc}" alt="${movie.title}">
       <h3>${movie.title || movie.name}</h3>
     `;
+    
+    // Make card clickable - OPEN MODAL
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      showMovieModal(movie.id);
+    });
+    
     container.appendChild(card);
   });
 }
@@ -54,4 +61,4 @@ function scrollMovies(containerId, scrollOffset) {
 
 // Load movies on page load
 getTrendingMovies();
-getPopularMovies();
+getPopularMovies();  
