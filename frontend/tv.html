@@ -5,18 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Movie Explorer</title>
   <link rel="stylesheet" href="style.css" />
+  <script>
+    window.apiKey = "06ccaa57f140ada11e68d82ac66e5b65";
+  </script>
+  <style>
+    #tvGrid.movies {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      overflow: visible;
+    }
+    #loadStatus { text-align:center; opacity:.7; margin:16px 0; }
+    #sentinel { height: 1px; }
+  </style>
 </head>
 <body>
   <nav>
     <div class="logo">Movie Explorer</div>
     <ul>
       <li><a href="home.html">Home</a></li>
-      <li><a href="tv.html">TV</a></li>
+      <li><a href="tv.html" class="active">TV</a></li>
       <li><a href="movies.html">Movies</a></li>
       <li><a href="watchlist.html">Watch List</a></li>
     </ul>
     <div class="nav-right">
-      <a href="search.html" >🔎</a>
+      <a href="search.html" aria-label="Search">🔎</a>
       <div class="profile">?</div>
     </div>
   </nav>
+
+  <section class="hero">
+    <h1>TV Shows</h1>
+    <p>Browse popular, trending, and top-rated series.</p>
+  </section>
+
+  <section class="section">
+    <h2 id="categoryTitle">Popular Shows</h2>
+    <select id="categorySelect" aria-label="Category">
+      <option value="popular" selected>Popular</option>
+      <option value="trending_day">Trending · Today</option>
+      <option value="trending_week">Trending · This Week</option>
+      <option value="top_rated">Top Rated</option>
+      <option value="on_the_air">On The Air</option>
+      <option value="airing_today">Airing Today</option>
+    </select>
+  </section>
+
+  <section class="section">
+    <div id="tvGrid" class="movies"></div>
+    <div id="loadStatus">加载中…</div>
+    <div id="sentinel"></div>
+  </section>
+
+  <script>
+    window.TMDB_V4_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZDFlY2JiMjRlNjVhOTVkODI0OWFmYzlkMmYzNTljYSIsIm5iZiI6MTc2MTI1NjM2OS44OTMsInN1YiI6IjY4ZmFhM2IxMGRjZTcwNzBlYzg1MzRjMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eqLkmZsgy9NAAIgzgx3NC2GBLtef-yWBayDtu2hrUPc";
+  </script>
+
+  <script src="modal.js"></script>
+  <script src="tv.js" defer></script>
+
+</body>
+</html>
