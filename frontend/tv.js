@@ -44,18 +44,12 @@
 
   function fetchRoute(cat, p) {
     switch (cat) {
-      case "trending_day":
-        return tmdb("/trending/tv/day", { page: p });
-      case "trending_week":
-        return tmdb("/trending/tv/week", { page: p });
-      case "top_rated":
-        return tmdb("/tv/top_rated", { page: p });
-      case "on_the_air":
-        return tmdb("/tv/on_the_air", { page: p });
-      case "airing_today":
-        return tmdb("/tv/airing_today", { page: p });
-      default:
-        return tmdb("/tv/popular", { page: p });
+      case "trending_day": return tmdb("/trending/tv/day", { page: p });
+      case "trending_week": return tmdb("/trending/tv/week", { page: p });
+      case "top_rated": return tmdb("/tv/top_rated", { page: p });
+      case "on_the_air": return tmdb("/tv/on_the_air", { page: p });
+      case "airing_today": return tmdb("/tv/airing_today", { page: p });
+      default: return tmdb("/tv/popular", { page: p });
     }
   }
 
