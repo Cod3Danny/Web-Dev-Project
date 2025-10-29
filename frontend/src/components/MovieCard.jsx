@@ -10,7 +10,6 @@ const MovieCard = ({ movie }) => {
         : "placeholder.jpg";
 
     const handleShowModal = () => {
-        console.log('adsasd')
         setShowModal(true);
     };
 
