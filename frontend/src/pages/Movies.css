@@ -1,0 +1,52 @@
+#movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    place-items: center;
+}
+
+
+#category-title {
+    align-self: center;
+    margin-top: 10px;
+}
+
+#movies-page,
+#select-options {
+    display: flex;
+    justify-content: center;
+}
+
+#movies-page {
+    flex-direction: column;
+}
+
+#select-options {
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+
+#select-options>label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+
+.selection {
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    text-align: center;
+    margin-left: 10px;
+}
+
+
+
+@media screen and (max-width: 500px) {
+    #select-options>label {
+        display: flex;
+        flex-direction: column;
+    }
+}

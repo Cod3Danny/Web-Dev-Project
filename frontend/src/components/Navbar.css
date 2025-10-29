@@ -1,0 +1,84 @@
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to bottom, #121212, #0b0b0b);
+  padding: 15px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+nav a {
+  text-decoration: none; /* This is the key to removing the underline */
+}
+
+/* Keep logo and profile fixed to sides */
+nav .logo {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #3ba5eb;
+  letter-spacing: 1px;
+}
+
+/* Absolutely center the nav links */
+nav ul {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 35px;
+  list-style: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #a8adb7;
+  font-weight: 500;
+  transition: color 0.2s, font-weight 0.2s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Right side icons stay fixed */
+nav .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+nav .nav-right .icon {
+  color: #a8adb7;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+nav .nav-right .icon:hover {
+  color: #fff;
+}
+
+nav .profile {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+nav .profile:hover {
+  background: #fff;
+  color: #000;
+}
