@@ -5,7 +5,7 @@ import TV from "./pages/TV";
 import Watchlist from "./pages/Watchlist";
 import Movies from "./pages/Movies";
 import Search from "./pages/Search";
-
+import './App.css'
 function App() {
   return (
     <>
