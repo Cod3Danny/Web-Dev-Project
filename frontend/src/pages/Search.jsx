@@ -1,4 +1,5 @@
 import {useEffect, useState } from "react";
+import MovieCard from "../components/MovieCard";
 import './Search.css'
 
 export default function Search() {
@@ -46,17 +47,7 @@ export default function Search() {
         <div id="resultsContainer" className="movies">
           {results.length === 0 && query && <p>No results found.</p>}
           {results.map((movie) => (
-            <div key={movie.id} className="movie-card">
-              <img
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
-                    : "placeholder.jpg"
-                }
-                alt={movie.title}
-              />
-              <h3>{movie.title}</h3>
-            </div>
+            <MovieCard key={movie.id} movie={movie} id={movie.id}/>
           ))}
         </div>
       </section>

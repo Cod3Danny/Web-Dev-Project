@@ -161,7 +161,7 @@ const Movies = () => {
 
             <section id="movie-grid" >
                 {movies.map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} />
+                    <MovieCard key={movie.id} movie={movie} id={movie.id}/>
                 ))}
             </section>
 

@@ -41,7 +41,7 @@ const Home = () => {
   };
 
   const renderMovies = (movies) =>
-    movies.map((movie) => <MovieCard key={movie.id} movie={movie} />);
+    movies.map((movie) => <MovieCard key={movie.id} movie={movie} id={movie.id}/>);
 
   return (
     <>
