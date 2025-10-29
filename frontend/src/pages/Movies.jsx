@@ -157,8 +157,8 @@ const Movies = () => {
             <h2 id="category-title">{category.replace("_", " ").toUpperCase()} Movies</h2>
 
             <section id="movie-grid" >
-                {movies.map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} id={movie.id}/>
+                {movies.map((movie, index) => (
+                    <MovieCard key={index} movie={movie} id={movie.id}/>
                 ))}
             </section>
 
