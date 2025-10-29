@@ -88,6 +88,7 @@
   font-size: 2.8em;
   margin-bottom: 20px;
   line-height: 1.1;
+  align-self: center;
 }
 
 .movie-meta,
@@ -97,6 +98,7 @@
   margin-bottom: 25px;
   flex-wrap: wrap;
   align-items: center;
+
 }
 
 .meta-item {
@@ -254,5 +256,9 @@
   .cast-grid {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 15px;
+  }
+
+  .row {
+    flex-direction: column;
   }
 }
