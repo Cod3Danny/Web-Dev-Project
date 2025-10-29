@@ -43,7 +43,7 @@
   let totalPages = Infinity;
   let loading = false;
 
-  // --- Load genres from TMDB ---
+  // Load genres from TMDB 
   async function loadGenres() {
     try {
       const data = await tmdb("/genre/movie/list");
@@ -59,7 +59,7 @@
     }
   }
 
-  // --- Fetch movies based on category and/or genre ---
+  // Fetch movies based on category and/or genre 
   function fetchRoute(cat, p) {
     const genreId = genreSel ? genreSel.value : "";
 
@@ -89,7 +89,7 @@
     }
   }
 
-  // --- Render movie cards ---
+  // Render movie cards 
   function render(items = []) {
     const frag = document.createDocumentFragment();
     items.forEach(it => {
@@ -141,7 +141,7 @@
     }
   }
 
-  // --- Infinite scroll observer ---
+  // Infinite scroll observer 
   let io;
   function setupObserver() {
     if (!sentinel) return;
@@ -158,7 +158,7 @@
     io.observe(sentinel);
   }
 
-  // --- Event listeners for category and genre ---
+  // Event listeners for category and genre 
   if (categorySel) {
     categorySel.addEventListener("change", () => {
       category = categorySel.value || "popular";
@@ -175,7 +175,7 @@
     });
   }
 
-  // --- Scroll/resize infinite load ---
+  // Scroll/resize infinite load 
   let ticking = false;
   function onScrollOrResize() {
     if (ticking) return;
@@ -188,7 +188,7 @@
   window.addEventListener("scroll", onScrollOrResize, { passive: true });
   window.addEventListener("resize", onScrollOrResize);
 
-  // --- Initialize ---
+  // Initialize 
   setupObserver();
   loadGenres();
   load(true);
