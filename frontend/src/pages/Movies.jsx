@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import Masthead from "../components/Masthead";
 import MovieCard from "../components/MovieCard";
 import Pagination from "../components/Pagination";
@@ -42,9 +42,6 @@ const Movies = () => {
         if (!res.ok) throw new Error(`TMDB ${res.status}`);
         return await res.json();
     };
-
-    const img = (p, w = 300) =>
-        p ? `https://image.tmdb.org/t/p/w${w}/${p}` : "placeholder.jpg";
 
     useEffect(() => {
         (async () => {
