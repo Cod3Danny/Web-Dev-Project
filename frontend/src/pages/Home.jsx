@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import Masthead from "../components/Masthead";
+import MovieCard from "../components/MovieCard";
 
 const Home = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
@@ -39,28 +41,13 @@ const Home = () => {
   };
 
   const renderMovies = (movies) =>
-    movies.map((movie) => (
-      <div key={movie.id} className="movie-card">
-        <img
-          src={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
-              : "placeholder.jpg"
-          }
-          alt={movie.title || movie.name}
-        />
-        <h3>{movie.title || movie.name}</h3>
-      </div>
-    ));
+    movies.map((movie) => <MovieCard key={movie.id} movie={movie} />);
 
   return (
     <>
-      <section className="hero">
-        <h1>Welcome.</h1>
-        <p>Millions of movies are available to you. Explore now.</p>
-      </section>
-
-      <section className="section trending">
+      <Masthead title='Welcome' description='Millions of movies are available to you. Explore now.' />
+      
+      <section className="trending">
         <h2>Trending</h2>
         <div
           className="scroll-btn left"
@@ -79,7 +66,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="section popular">
+      <section className="popular">
         <h2>Popular</h2>
         <div
           className="scroll-btn left"

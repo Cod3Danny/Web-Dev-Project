@@ -1,7 +1,8 @@
-import { useState } from "react";
+import {useEffect, useState } from "react";
+import './Search.css'
 
 export default function Search() {
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY; // use your .env key
+  const apiKey = import.meta.env.VITE_TMDB_API_KEY; 
 
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -20,26 +21,26 @@ export default function Search() {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") searchMovies();
-  };
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      searchMovies();
+    }, 500); // wait 0.5s after typing stops
+
+    return () => clearTimeout(delay);
+  }, [query]);
 
   return (
     <div>
-      {/* === Search Bar === */}
       <div className="search-bar">
         <input
           type="text"
           placeholder="Search for a movie, TV show..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
         />
-        <button onClick={searchMovies}>Search</button>
       </div>
 
-      {/* === Results Section === */}
-      <section className="section search-results">
+      <section className="search-results">
         <h2>Search Results</h2>
 
         <div id="resultsContainer" className="movies">
