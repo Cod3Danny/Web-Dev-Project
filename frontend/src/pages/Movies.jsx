@@ -158,7 +158,7 @@ const Movies = () => {
 
             <section id="movie-grid" >
                 {movies.map((movie, index) => (
-                    <MovieCard key={index} movie={movie} id={movie.id}/>
+                    <MovieCard key={index} filmType='movie' movie={movie} id={movie.id}/>
                 ))}
             </section>
 

@@ -2,13 +2,22 @@ import { useEffect, useState } from "react";
 import CastCard from "./CastCard";
 import "./MovieModal.css";
 
-const MovieModal = ({ movieId, onClose }) => {
+const MovieModal = ({ filmType, movieId, onClose }) => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
+  
   const [movie, setMovie] = useState(null);
   const [credits, setCredits] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  function getTrailer () {
+    const query = encodeURIComponent(`${movie.title} official trailer`);
+    window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+  };
+
+  function addToWatchList () {
+    alert('added to watchlist'); 
+  }
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -17,10 +26,10 @@ const MovieModal = ({ movieId, onClose }) => {
         setError("");
         const [movieResp, creditsResp] = await Promise.all([
           fetch(
-            `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
+            `https://api.themoviedb.org/3/${filmType}/${movieId}?api_key=${apiKey}`
           ),
           fetch(
-            `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`
+            `https://api.themoviedb.org/3/${filmType}/${movieId}/credits?api_key=${apiKey}`
           ),
         ]);
 
@@ -46,14 +55,16 @@ const MovieModal = ({ movieId, onClose }) => {
 
   const posterSrc = movie?.poster_path
     ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-    : "https://via.placeholder.com/500x750/2a2a2a/ffffff?text=No+Poster";
+    : "https://via.placeholder.com/500x750/2a2a2a/ffffff?text=No+Poster+Available";
 
   const topCast = credits?.cast?.slice(0, 8) || [];
   const runtime = movie?.runtime
     ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`
     : "N/A";
-  const releaseYear = movie?.release_date
-    ? movie.release_date.split("-")[0]
+  const releaseYear = movie?.release_date //release date is for move
+    ? movie.release_date.split("-")[0] 
+    : movie?.first_air_date               //first air date is for tv
+    ? movie.first_air_date.split("-")[0]
     : "N/A";
 
   return (
@@ -78,21 +89,23 @@ const MovieModal = ({ movieId, onClose }) => {
                   />
 
                   <div className="movie-content">
-                    <h1 className="movie-title">{movie.title}</h1>
+                    {filmType =='movie' && <h1 className="movie-title">{movie.title}</h1>}
+                    {filmType =='tv' && <h1 className="movie-title">{movie.name}</h1>}
                     <div className="movie-meta">
                       <p className="meta-item">{releaseYear}</p>
-                      <p className="meta-item">{runtime}</p>
+                      {filmType =='movie' && <p className="meta-item">{runtime}</p>}
+                      {filmType =='tv' && <p className="meta-item">{movie.number_of_episodes} Episodes</p>}
                       <p className="meta-item">
                         ⭐️ {movie.vote_average?.toFixed(1)}/10
                       </p>
                     </div>
                     <div className="movie-genres">
                       {movie.genres?.length
-                        ? movie.genres.map((g) => (
-                            <p className="meta-item" key={movie.title + g.name}>
-                              {g.name}
-                            </p>
-                          ))
+                        ? movie.genres.map((g, index) => (
+                          <p className="meta-item" key={index}>
+                            {g.name}
+                          </p>
+                        ))
                         : "Genre N/A"}
                     </div>
 
@@ -102,15 +115,21 @@ const MovieModal = ({ movieId, onClose }) => {
                         {movie.overview || "No overview available."}
                       </p>
                     </div>
+                    <div className="movie-actions">
+                      <button className="watchlist-btn" onClick={() => addToWatchList()}>Add to Watchlist</button>
+                      <button className='trailer-btn' onClick={() => getTrailer()}>Watch Trailer</button>
+                    </div>
                   </div>
+
+
                 </div>
                 {topCast.length > 0 && (
                   <div className="cast-section">
                     <h2>Top Cast</h2>
                     <div className="cast-grid">
-                      {topCast.map((actor) => (
+                      {topCast.map((actor, index) => (
                         <CastCard
-                          key={actor.cast_id}
+                          key={index}
                           name={actor.name}
                           imgSrc={
                             actor.profile_path

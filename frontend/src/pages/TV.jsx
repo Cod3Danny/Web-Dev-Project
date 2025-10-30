@@ -54,22 +54,6 @@ const TV = () => {
   }, []);
 
   const fetchRoute = (cat, pageNum) => {
-    const sortMap = {
-      popular: "popularity.desc",
-      top_rated: "vote_average.desc",
-      now_playing: "primary_release_date.desc",
-      upcoming: "primary_release_date.asc",
-    };
-
-    if (genre) {
-      const params = {
-        page: pageNum,
-        with_genres: genre,
-        sort_by: sortMap[cat] || "popularity.desc",
-      };
-      return tmdb("/discover/tv", params);
-    }
-
     switch (cat) {
       case "trending_day":
         return tmdb("/trending/tv/day", { page: pageNum });
@@ -77,14 +61,15 @@ const TV = () => {
         return tmdb("/trending/tv/week", { page: pageNum });
       case "top_rated":
         return tmdb("/tv/top_rated", { page: pageNum });
-      case "now_playing":
-        return tmdb("/tv/now_playing", { page: pageNum });
-      case "upcoming":
-        return tmdb("/tv/upcoming", { page: pageNum });
+      case "airing_today":
+        return tmdb("/tv/airing_today", { page: pageNum });
+      case "on_the_air":
+        return tmdb("/tv/on_the_air", { page: pageNum });
       default:
         return tmdb("/tv/popular", { page: pageNum });
     }
   };
+
 
   const loadMovies = async (pageNum = 1) => {
     if (loading) return;
@@ -154,26 +139,12 @@ const TV = () => {
             <option value="trending_day">Trending · Today</option>
             <option value="trending_week">Trending · This Week</option>
             <option value="top_rated">Top Rated</option>
-            <option value="now_playing">Now Playing</option>
-            <option value="upcoming">Upcoming</option>
+            <option value="airing_today">Airing Today</option>
+            <option value="on_the_air">On the Air</option>
+
           </select>
         </label>
 
-        <label>
-          <p>Genre:</p>
-          <select
-            className="selection"
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
-          >
-            <option value="">All Genres</option>
-            {genres.map((g) => (
-              <option key={g.id} value={g.id}>
-                {g.name}
-              </option>
-            ))}
-          </select>
-        </label>
       </div>
 
       <h2 id="category-title">
@@ -182,7 +153,7 @@ const TV = () => {
 
       <section id="movie-grid">
         {movies.map((movie, index) => (
-          <MovieCard key={index} movie={movie} id={movie.id} />
+          <MovieCard key={index} filmType='tv' movie={movie} id={movie.id} />
         ))}
       </section>
 

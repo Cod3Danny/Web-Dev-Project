@@ -2,7 +2,7 @@ import './MovieCard.css'
 import { useState } from 'react';
 import MovieModal from './MovieModal';
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({ movie, filmType }) => {
     const [showModal, setShowModal] = useState(false);
 
     const imgSrc = movie.poster_path
@@ -25,6 +25,7 @@ const MovieCard = ({ movie }) => {
             </div>
             {showModal && (
                 <MovieModal
+                    filmType={filmType}
                     movieId={movie.id}
                     onClose={handleCloseModal}
                 />
