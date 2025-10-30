@@ -117,8 +117,8 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
                       </p>
                     </div>
                     <div className="movie-actions">
-                      <button className="watchlist-btn" onClick={() => addToWatchList()}>Add to Watchlist</button>
-                      <button className='trailer-btn' onClick={() => getTrailer()}>Watch Trailer</button>
+                      <button className="watchlist-btn" onClick={() => addToWatchList()}>➕ Add to Watchlist</button>
+                      <button className='trailer-btn' onClick={() => getTrailer()}>▶️ Watch Trailer</button>
                     </div>
                   </div>
 
