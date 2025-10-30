@@ -47,7 +47,7 @@ export default function Search() {
         <div id="resultsContainer" className="movies">
           {results.length === 0 && query && <p>No results found.</p>}
           {results.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} id={movie.id}/>
+            <MovieCard key={movie.id} filmType='movie' movie={movie} id={movie.id}/>
           ))}
         </div>
       </section>
