@@ -11,7 +11,8 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   function getTrailer () {
-    const query = encodeURIComponent(`${movie.title} official trailer`);
+    const filmTitle = movie.title? movie.title : movie.name? movie.name: 'N/A';
+    const query = encodeURIComponent(`${filmTitle} official trailer`);
     window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
   };
 
