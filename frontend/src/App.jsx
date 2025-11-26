@@ -6,13 +6,17 @@ import Watchlist from "./pages/Watchlist";
 import Movies from "./pages/Movies";
 import Search from "./pages/Search";
 import './App.css'
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
 function App() {
   return (
     <>
       <Navbar/>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />}/> 
+          <Route path="/" element={<Home />} /> 
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />}/>
           <Route path="tv" element={<TV />}/>
           <Route path="movies" element={<Movies/>}/>
           <Route path="watchlist" element={<Watchlist/>}/>
