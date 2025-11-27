@@ -1,0 +1,93 @@
+#login-page, #register-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form > p, .form > h2 {
+    color: black;
+}
+.form {
+    max-width: 350px;
+    margin: 80px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#login-page h2 {
+    color: black;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.form .input {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form label {
+    color: black;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border 0.2s;
+}
+
+.form input:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+button[type="submit"] {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #4a90e2;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+    background-color: #3b7ac4;
+}
+
+button[disabled] {
+    background-color: #a5c4e5;
+    cursor: not-allowed;
+}
+
+#login-page p {
+    margin-top: 15px;
+}
+
+#login-page a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+#login-page a:hover {
+    text-decoration: underline;
+}
+
+p[style*="color: red"] {
+    margin-top: 6px;
+    font-size: 14px;
+}

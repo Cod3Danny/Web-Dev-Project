@@ -25,10 +25,10 @@ const Navbar = () => {
                 <li><a className='nav-link' href="/watchlist">Watch List</a></li>
             </ul>
 
-            <div className="nav-right">
-                <a href="/search" className="icon">🔍</a>
-                <div className="profile">?</div>
-            </div>
+            <ul className="nav-right">
+                <li><a href="/search" className="icon">🔍</a></li>
+                <li><a className="nav-link" href="/login">Login</a></li>
+            </ul>
         </nav>
     );
 };

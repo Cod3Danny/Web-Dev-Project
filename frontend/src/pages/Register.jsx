@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./Login.css";
 
 export default function RegisterPage({ onRegister }) {
   const [email, setEmail] = useState("");
@@ -16,11 +17,12 @@ export default function RegisterPage({ onRegister }) {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
+    <div id="register-page">
+      
 
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="form">
+        <h2>Register</h2>
+        <div className="input">
           <label>Email: </label>
           <input
             type="email"
@@ -29,7 +31,7 @@ export default function RegisterPage({ onRegister }) {
           />
         </div>
 
-        <div>
+        <div className="input">
           <label>Password: </label>
           <input
             type="password"
@@ -38,8 +40,8 @@ export default function RegisterPage({ onRegister }) {
           />
         </div>
 
-        <div>
-          <label>Confirm: </label>
+        <div className="input">
+          <label>Confirm Password: </label>
           <input
             type="password"
             value={confirm}
@@ -48,11 +50,10 @@ export default function RegisterPage({ onRegister }) {
         </div>
 
         <button type="submit">Register</button>
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </form>
-
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../userAuth/useAuth";
+import "./Login.css";
 
 // FRONTEND login API call (NOT backend controller)
 async function loginAPI(email, password) {
@@ -73,13 +74,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div id="login-page">
+      
 
       {loginError && <p style={{ color: "red" }}>{loginError}</p>}
 
-      <form onSubmit={handleLogin}>
-        <div>
+      <form onSubmit={handleLogin} className="form">
+        <h2>Login</h2>
+        <div className="input">
           <label>Email: </label>
           <input
             type="email"
@@ -89,7 +91,7 @@ export default function LoginPage() {
           {emailError && <p style={{ color: "red" }}>{emailError}</p>}
         </div>
 
-        <div>
+        <div className="input">
           <label>Password: </label>
           <input
             type="password"
@@ -102,11 +104,12 @@ export default function LoginPage() {
         <button type="submit" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
+        <p>
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
       </form>
 
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
+
     </div>
   );
 }
