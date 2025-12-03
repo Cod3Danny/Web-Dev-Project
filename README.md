@@ -1,6 +1,7 @@
-## Go to frontend folder 
+## Run Backend & Frontend on split terminals
 
 cd frontend 
+cd backend
 
 ## Install dependencies
 
