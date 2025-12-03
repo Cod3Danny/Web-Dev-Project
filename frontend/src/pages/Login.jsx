@@ -12,6 +12,12 @@ export default function LoginPage() {
         const userData = { "username": username, "password": password };
         const responseMessage = await loginUser(userData);
         setMessage(responseMessage);
+        //pause for 1 second to show message
+        setTimeout(() => {
+            if (responseMessage === "Login successful!") {
+                window.location.href = "/";
+            }
+        }, 1000);
     }
 
     return (

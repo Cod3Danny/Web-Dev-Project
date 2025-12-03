@@ -1,6 +1,10 @@
 import { createWatchlist } from "./watchlistServices";
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
+export function logoutUser() {
+    localStorage.removeItem("token");
+}
+
 export async function loginUser(userData) {
   try {
     const res = await fetch(`${backendUrl}/api/users/login`, {
@@ -32,15 +36,12 @@ export async function registerUser(userData) {
       body: JSON.stringify(userData),
     });
 
-    const res_watchlist = await createWatchlist(userData.username);
-
-    if (res_register.ok && res_watchlist.ok) {
-      return "User registered successfully!";
+    if (res_register.ok) {
+        return "User registered successfully!";
     } else {
       const data = await res.json();
       return (data.message || "Registration failed");
     }
-
   } catch (error) {
     return "Server error";
   }

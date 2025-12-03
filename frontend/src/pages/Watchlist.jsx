@@ -57,11 +57,17 @@ const Watchlist = () => {
                             {watchlist.movies.length > 0 && movies.map((m, index) => (
                                 <MovieCard key={index} filmType='movie' movie={m} id={m.id} />
                             ))}
+                            {watchlist.movies.length === 0 && (
+                                <p>no movies currently in watchlist</p>
+                            )}
                         </section>
-                        {watchlist.movies.length === 0 && (
-                            <p>no movies currently in watchlist</p>
-                        )}
+
                     </div>
+                )
+            }
+            {
+                !watchlist && (
+                    <Masthead title={`Please Login First.`} />
                 )
             }
 

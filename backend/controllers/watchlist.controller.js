@@ -17,12 +17,12 @@ const getWatchlist = async (req, res) => {
 // Create watchlist for a user
 const createWatchlist = async (req, res) => {
   try {
-    const { username } = req.params;
+    const { username } = req.body;
 
     const existing = await Watchlist.findOne({ username });
     if (existing) return res.status(400).json({ message: "Watchlist already exists" });
 
-    const wl = await Watchlist.create({ username, items: [] });
+    const wl = await Watchlist.create({ username, movies: [] });
     res.status(201).json(wl);
 
   } catch (err) {

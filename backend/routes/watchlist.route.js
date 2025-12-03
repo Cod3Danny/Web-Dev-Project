@@ -7,8 +7,8 @@ const {
   removeItem,
 } = require("../controllers/watchlist.controller");
 
+router.post("/", createWatchlist); 
 router.get("/:username", getWatchlist);
-router.post("/", createWatchlist);  
 router.post("/:username/add", addItem);
 router.post("/:username/remove", removeItem);
 

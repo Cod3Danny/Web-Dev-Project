@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { registerUser } from "../services/userServices";
+import { createWatchlist } from "../services/watchlistServices";
 import "./Login.css"
 
 export default function RegisterPage() {
@@ -20,12 +21,18 @@ export default function RegisterPage() {
         const newUser = { username, email, password };
 
         const responseMessage = await registerUser(newUser);
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
-        setMessage(responseMessage);
-        
+        if (responseMessage === "User registered successfully!") {
+            await createWatchlist(username);
+            setUsername("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setMessage(responseMessage);
+            //pause for 1 second to show message
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 1000);
+        }
     }
 
     return (
