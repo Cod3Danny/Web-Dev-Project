@@ -1,13 +1,11 @@
-#login-page, #register-page {
+#login-page{
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.form > p, .form > h2 {
-    color: black;
-}
+
 .form {
     max-width: 350px;
     margin: 80px auto;
@@ -17,10 +15,10 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
     font-family: Arial, sans-serif;
+    color: black;
 }
 
 #login-page h2 {
-    color: black;
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: bold;
@@ -32,7 +30,6 @@
 }
 
 .form label {
-    color: black;
     display: block;
     margin-bottom: 6px;
     font-weight: 600;

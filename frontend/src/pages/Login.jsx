@@ -1,115 +1,51 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../userAuth/useAuth";
-import "./Login.css";
-
-// FRONTEND login API call (NOT backend controller)
-async function loginAPI(email, password) {
-  const res = await fetch("http://localhost:5000/api/user/login", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-
-  if (!res.ok) {
-    const data = await res.json();
-    throw new Error(data.error || "Login failed");
-  }
-
-  return res.json();
-}
+import { loginUser } from "../services/userServices";
+import "./Login.css"
 
 export default function LoginPage() {
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loginError, setLoginError] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
-  const navigate = useNavigate();
-  const { refreshUser } = useAuth();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!validateInputs()) return;
-    setLoading(true);
-
-    try {
-      await loginAPI(email, password);
-
-      if (refreshUser) {
-        await refreshUser();
-      }
-
-      navigate("/home");
-    } catch (err) {
-      setLoginError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const validateInputs = () => {
-    let valid = true;
-
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("Please enter a valid email.");
-      valid = false;
-    } else {
-      setEmailError("");
+    async function handleLogin(e) {
+        e.preventDefault();
+        const userData = { "username": username, "password": password };
+        const responseMessage = await loginUser(userData);
+        setMessage(responseMessage);
     }
 
-    if (!password) {
-      setPasswordError("Password is required.");
-      valid = false;
-    } else {
-      setPasswordError("");
-    }
+    return (
+        <div id="login-page">
 
-    return valid;
-  };
 
-  return (
-    <div id="login-page">
-      
+            {message && <p>{message}</p>}
 
-      {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+            <form onSubmit={handleLogin} className="form">
+                <h2>Login</h2>
+                <div className="input">
+                    <label>Username</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
 
-      <form onSubmit={handleLogin} className="form">
-        <h2>Login</h2>
-        <div className="input">
-          <label>Email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {emailError && <p style={{ color: "red" }}>{emailError}</p>}
+                <div className="input">
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+
+                <button type="submit">Login</button>
+
+                <div>
+                    <p>Don't have an account? <a href="/register">Register here</a></p>
+                </div>
+            </form>
         </div>
-
-        <div className="input">
-          <label>Password: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-        <p>
-          Don't have an account? <Link to="/register">Register</Link>
-        </p>
-      </form>
-
-
-    </div>
-  );
+    );
 }

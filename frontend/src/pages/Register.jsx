@@ -1,136 +1,82 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { createUser } from "../services/userServices";
-import "./Login.css";
+import { registerUser } from "../services/userServices";
+import "./Login.css"
+
 export default function RegisterPage() {
-  const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [registrationError, setRegistrationError] = useState("");
+    async function handleRegister(e) {
+        e.preventDefault();
 
-  const validateInputs = () => {
-    let isValid = true;
+        if (password !== confirmPassword) {
+            setMessage("Passwords do not match");
+            return;
+        }
 
-    if (!username) {
-      setUsernameError("Username is required.");
-      isValid = false;
-    } else if (username.length < 3) {
-      setUsernameError("Username must be at least 3 characters.");
-      isValid = false;
-    } else {
-      setUsernameError("");
+        const newUser = { username, email, password };
+
+        const responseMessage = await registerUser(newUser);
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setMessage(responseMessage);
+        
     }
 
-    if (!email) {
-      setEmailError("Email is required.");
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("Invalid email address.");
-      isValid = false;
-    } else {
-      setEmailError("");
-    }
+    return (
+        <div id="login-page">
 
-    if (!password || password.length < 6) {
-      setPasswordError("Password must be at least 6 characters.");
-      isValid = false;
-    } else {
-      setPasswordError("");
-    }
+            {message && <p>{message}</p>}
 
-    if (confirmPassword !== password) {
-      setConfirmPasswordError("Passwords do not match.");
-      isValid = false;
-    } else {
-      setConfirmPasswordError("");
-    }
+            <form onSubmit={handleRegister} className="form">
+                <h2>Register</h2>
+                <div className="input">
+                    <label>Username:</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
 
-    return isValid;
-  };
+                <div className="input">
+                    <label>Email:</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (!validateInputs()) return;
+                <div className="input">
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
 
-    setLoading(true);
+                <div className="input">
+                    <label>Confirm Password:</label>
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </div>
 
-    try {
-      await createUser(email, username, password);
-      alert("Registration successful! Please log in.");
+                <button type="submit">Register</button>
 
-      // reset fields
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setConfirmPassword("");
-      setRegistrationError("");
-    } catch (err) {
-      setRegistrationError("Registration failed.");
-    }
-
-    setLoading(false);
-  };
-
-  return (
-    <div>
-      <h2>Register</h2>
-
-      {registrationError && <p>{registrationError}</p>}
-
-      <form onSubmit={handleRegister} className="form">
-        <div className="input">
-          <label>Username:</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          {usernameError && <p>{usernameError}</p>}
+                <div>
+                    <p>Already have an account? <a href="/login">Login here</a></p>
+                </div>
+            </form>
         </div>
-
-        <div className="input">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {emailError && <p>{emailError}</p>}
-        </div>
-
-        <div className="input">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {passwordError && <p>{passwordError}</p>}
-        </div>
-
-        <div className="input">
-          <label>Confirm Password:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {confirmPasswordError && <p>{confirmPasswordError}</p>}
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Registering..." : "Register"}
-        </button>
-        <p>
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-      </form>
-    </div>
-  );
+    );
 }
