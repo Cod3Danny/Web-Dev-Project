@@ -125,10 +125,10 @@ const Movies = () => {
 
 
     return (
-        <div id="movies-page">
+        <div className="movies-page">
             <Masthead title='Movies' description='Browse popular, trending, and top-rated films' />
 
-            <div id="select-options">
+            <div className="select-options">
                 <label>
                     <p>Category:</p>
                     <select className="selection" value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -154,9 +154,9 @@ const Movies = () => {
                 </label>
             </div>
 
-            <h2 id="category-title">{category.replace("_", " ").toUpperCase()} Movies</h2>
+            <h2 className="category-title">{category.replace("_", " ").toUpperCase()} Movies</h2>
 
-            <section id="movie-grid" >
+            <section className="movie-grid" >
                 {movies.map((movie, index) => (
                     <MovieCard key={index} filmType='movie' movie={movie} id={movie.id}/>
                 ))}

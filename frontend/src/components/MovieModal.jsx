@@ -1,24 +1,46 @@
 import { useEffect, useState } from "react";
 import CastCard from "./CastCard";
+import { addItemToWatchlist, getWatchlist, removeItemFromWatchlist } from "../services/watchlistServices";
+import { loadUser } from "../services/userServices";
 import "./MovieModal.css";
 
 const MovieModal = ({ filmType, movieId, onClose }) => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-
-  
   const [movie, setMovie] = useState(null);
   const [credits, setCredits] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  function getTrailer () {
-    const filmTitle = movie.title? movie.title : movie.name? movie.name: 'N/A';
+  const [user, setUser] = useState(null);
+  const [inWatchlist, setInWatchlist] = useState(false);
+  const link = `https://api.themoviedb.org/3/${filmType}/${movieId}`;
+
+  function getTrailer() {
+    const filmTitle = movie.title ? movie.title : movie.name ? movie.name : 'N/A';
     const query = encodeURIComponent(`${filmTitle} official trailer`);
     window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
   };
 
-  function addToWatchList () {
-    alert('added to watchlist'); 
-  }
+  useEffect(() => {
+    async function fetchUser() {
+      const data = await loadUser();
+      setUser(data);
+    }
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    async function checkWatchlist() {
+      if (user && user.username) {
+        const watchlistData = await getWatchlist(user.username);
+        if (watchlistData && watchlistData.movies.includes(link)) {
+          setInWatchlist(true);
+        }
+      }
+    }
+
+    checkWatchlist();
+  }, [user, link]);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -63,10 +85,37 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
     ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`
     : "N/A";
   const releaseYear = movie?.release_date //release date is for move
-    ? movie.release_date.split("-")[0] 
+    ? movie.release_date.split("-")[0]
     : movie?.first_air_date               //first air date is for tv
-    ? movie.first_air_date.split("-")[0]
-    : "N/A";
+      ? movie.first_air_date.split("-")[0]
+      : "N/A";
+
+  async function addToWatchList() {
+    if (user && user.username) {
+      if (inWatchlist) {
+        alert("Movie already in watchlist");
+      } else {
+        const res = await addItemToWatchlist(user.username, link);
+        setInWatchlist(true);
+        alert(res);
+        window.location.reload();
+      }
+    }
+    else {
+      navigate('/login');
+    }
+  }
+
+  async function removeFromWatchlist() {
+    if (user && user.username) {
+      const res = await removeItemFromWatchlist(user.username, link);
+      setInWatchlist(false);
+      alert(res);
+      window.location.reload();
+    } else {
+      navigate('/login');
+    }
+  }
 
   return (
     <div className="modal">
@@ -90,12 +139,12 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
                   />
 
                   <div className="movie-content">
-                    {filmType =='movie' && <h1 className="movie-title">{movie.title}</h1>}
-                    {filmType =='tv' && <h1 className="movie-title">{movie.name}</h1>}
+                    {filmType == 'movie' && <h1 className="movie-title">{movie.title}</h1>}
+                    {filmType == 'tv' && <h1 className="movie-title">{movie.name}</h1>}
                     <div className="movie-meta">
                       <p className="meta-item">{releaseYear}</p>
-                      {filmType =='movie' && <p className="meta-item">{runtime}</p>}
-                      {filmType =='tv' && <p className="meta-item">{movie.number_of_episodes} Episodes</p>}
+                      {filmType == 'movie' && <p className="meta-item">{runtime}</p>}
+                      {filmType == 'tv' && <p className="meta-item">{movie.number_of_episodes} Episodes</p>}
                       <p className="meta-item">
                         ⭐️ {movie.vote_average?.toFixed(1)}/10
                       </p>
@@ -117,7 +166,11 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
                       </p>
                     </div>
                     <div className="movie-actions">
-                      <button className="watchlist-btn" onClick={() => addToWatchList()}>➕ Add to Watchlist</button>
+                      {inWatchlist ? (
+                        <button className="watchlist-btn" onClick={() => removeFromWatchlist()}>Remove From Watchlist</button>
+                      ) : (
+                        <button className="watchlist-btn" onClick={() => addToWatchList()}>Add to Watchlist</button>
+                      )}
                       <button className='trailer-btn' onClick={() => getTrailer()}>▶️ Watch Trailer</button>
                     </div>
                   </div>

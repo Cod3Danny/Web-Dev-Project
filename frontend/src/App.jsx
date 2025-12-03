@@ -8,6 +8,8 @@ import Search from "./pages/Search";
 import './App.css'
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
+import Profile from "./pages/Profile";
+
 function App() {
   return (
     <>
@@ -22,6 +24,7 @@ function App() {
           <Route path="watchlist" element={<Watchlist/>}/>
           <Route path="search" element={<Search/>}/>
           <Route path="*" element={<div className="error-page">404 Not Found</div>} />
+          <Route path="profile" element={<Profile/>}/>
         </Routes>
       </BrowserRouter>
     </>

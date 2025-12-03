@@ -5,12 +5,14 @@ const { getUsers,
     createUser, 
     updateUser, 
     deleteUser, 
-loginUser } = require('../controllers/user.controller');
+loginUser,
+getProfile } = require('../controllers/user.controller');
 
 router.get('/', getUsers);
-router.post('/login', loginUser);
-router.get('/:id', getUserById);
 router.post('/', createUser);
+router.post('/login', loginUser);
+router.get('/me', getProfile);
+router.get('/:id', getUserById);
 router.put('/:id', updateUser);
 router.delete('/:id', deleteUser);
 

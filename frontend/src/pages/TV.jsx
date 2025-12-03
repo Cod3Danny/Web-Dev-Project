@@ -121,13 +121,13 @@ const TV = () => {
   }, [currentPage, category, genre]);
 
   return (
-    <div id="movies-page">
+    <div className="movies-page">
       <Masthead
         title="TV"
         description="Browse popular, trending, and top-rated films"
       />
 
-      <div id="select-options">
+      <div className="select-options">
         <label>
           <p>Category:</p>
           <select
@@ -147,11 +147,11 @@ const TV = () => {
 
       </div>
 
-      <h2 id="category-title">
+      <h2 className="category-title">
         {category.replace("_", " ").toUpperCase()} TV
       </h2>
 
-      <section id="movie-grid">
+      <section className="movie-grid">
         {movies.map((movie, index) => (
           <MovieCard key={index} filmType='tv' movie={movie} id={movie.id} />
         ))}

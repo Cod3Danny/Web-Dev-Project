@@ -1,34 +1,33 @@
-#movie-grid {
+.movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
     place-items: center;
 }
 
-
-#category-title {
+.category-title {
     align-self: center;
     margin-top: 10px;
 }
 
-#movies-page,
-#select-options {
+.movies-page,
+.select-options {
     display: flex;
     justify-content: center;
     overflow: auto;
 }
 
-#movies-page {
+.movies-page {
     flex-direction: column;
 }
 
-#select-options {
+.select-options {
     flex-direction: row;
     justify-content: space-evenly;
     margin-top: 10px;
 }
 
-#select-options>label {
+.select-options>label {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -46,7 +45,7 @@
 
 
 @media screen and (max-width: 500px) {
-    #select-options>label {
+    .select-options>label {
         display: flex;
         flex-direction: column;
     }

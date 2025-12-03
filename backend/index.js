@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./models/user.model.js');
 const userRoute = require('./routes/user.route.js');
+const watchlistRoute = require('./routes/watchlist.route.js');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -21,6 +21,7 @@ const PORT = process.env.PORT;
 
 //routes 
 app.use('/api/users', userRoute);
+app.use('/api/watchlist', watchlistRoute);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

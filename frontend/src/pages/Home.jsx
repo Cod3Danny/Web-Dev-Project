@@ -4,7 +4,7 @@ import MovieCard from "../components/MovieCard";
 
 const Home = () => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-
+  
   const [trending, setTrending] = useState([]);
   const [popular, setPopular] = useState([]);
 
