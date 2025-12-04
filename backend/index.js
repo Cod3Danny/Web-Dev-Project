@@ -9,7 +9,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://movie-explorer-z.netlify.app"], //replace with deployed frontend URL 
+  origin: ["http://localhost:5173", "https://movie-explorer-z.netlify.app/"], //replace with deployed frontend URL 
   credentials: true
 }));
 
