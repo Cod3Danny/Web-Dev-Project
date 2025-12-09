@@ -102,12 +102,12 @@ const Watchlist = () => {
 
     // NEW: Masthead loading
     const isMastheadLoading = isUserLoading || (user && isWatchlistLoading);
-    function onRemoved(movieId, link) {
-        setMovies((prev) => prev.filter((m) => m.id !== movieId));
-        setWatchlist((prev) => {
+    function onRemoved(link) {
+    setMovies((prev) => prev.filter((m) => m.__link !== link));
+    setWatchlist((prev) => {
         if (!prev) return prev;
         return { ...prev, movies: prev.movies.filter((x) => x !== link) };
-        });
+    });
     }
 
     return (
@@ -125,7 +125,7 @@ const Watchlist = () => {
                             {error && <p>{error}</p>}
                             {isMoviesLoading && <p>Loading movies...</p>}
                             {!isMoviesLoading && watchlist.movies.length > 0 && movies.map((m, index) => (
-                                <MovieCard key={index} filmType={m.__link?.includes("/tv/") ? "tv" : "movie"} movie={m} id={m.id} movieLink={m.__link} onRemoved={onRemoved} />
+                                <MovieCard key={m.__link} filmType={m.__link?.includes("/tv/") ? "tv" : "movie"} movie={m} id={m.id} movieLink={m.__link} onRemoved={onRemoved} />
                             ))}
                             {!isMoviesLoading && watchlist.movies.length === 0 && (
                                 <p>no movies currently in watchlist</p>
