@@ -136,7 +136,7 @@ const Watchlist = () => {
                 )
             }
             {
-                !isMastheadLoading && !watchlist && (
+                !isMoviesLoading && !watchlist && (
                     <Masthead title={`Please Login First.`} />
                 )
             }
