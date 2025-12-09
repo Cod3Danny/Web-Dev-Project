@@ -4,7 +4,7 @@ import { addItemToWatchlist, getWatchlist, removeItemFromWatchlist } from "../se
 import { loadUser } from "../services/userServices";
 import "./MovieModal.css";
 
-const MovieModal = ({ filmType, movieId, onClose }) => {
+const MovieModal = ({ filmType, movieId, onClose, onRemoved }) => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [movie, setMovie] = useState(null);
   const [credits, setCredits] = useState(null);
@@ -12,7 +12,7 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
   const [inWatchlist, setInWatchlist] = useState(false);
-  const link = `https://api.themoviedb.org/3/${filmType}/${movieId}`;
+  const link = movieLink || `https://api.themoviedb.org/3/${filmType}/${movieId}`;
 
   const [userLoading, setUserLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
@@ -142,6 +142,7 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
         const res = await removeItemFromWatchlist(user.username, link);
 
         setInWatchlist(false);
+        onRemoved?.(movieId, link);
         setActionMsg(res || "Removed from watchlist.");
       } catch (e) {
         setActionMsg("Failed to remove from watchlist.");

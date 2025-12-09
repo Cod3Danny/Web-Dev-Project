@@ -80,7 +80,8 @@ const Watchlist = () => {
             const movieData = await Promise.all(
             watchlist.movies.map(async (link) => {
                 const res = await fetch(`${link}?api_key=${apiKey}`);
-                return await res.json();
+                const data = await res.json();
+                return { ...data, __link: link };
             })
             );
 
