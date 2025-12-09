@@ -23,8 +23,26 @@ const PORT = process.env.PORT;
 app.use('/api/users', userRoute);
 app.use('/api/watchlist', watchlistRoute);
 
+//Api Endpoints
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.json({
+        api: "Movie Explorer Backend API",
+        version: "1.0",
+        endpoints: [
+            "POST /api/users - Register user",
+            "POST /api/users/login - Login user",
+            "GET /api/users/me - Get profile (requires token)",
+            "GET /api/users - Get all users",
+            "GET /api/users/:id - Get user by ID",
+            "PUT /api/users/:id - Update user",
+            "DELETE /api/users/:id - Delete user",
+            "POST /api/watchlist - Create watchlist",
+            "GET /api/watchlist/:username - Get watchlist",
+            "POST /api/watchlist/:username/add - Add movie to watchlist",
+            "POST /api/watchlist/:username/remove - Remove movie from watchlist"
+        ],
+        note: "Use Postman or similar tool to test POST endpoints"
+    });
 });
 
 mongoose.connect(process.env.DATABASE_URL)
