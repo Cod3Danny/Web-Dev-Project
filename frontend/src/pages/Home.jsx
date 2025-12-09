@@ -45,7 +45,7 @@ const Home = () => {
 
   return (
     <>
-      <Masthead title='Welcome' description='Millions of movies are available to you. Explore now.' />
+      <Masthead title='Welcome(test)' description='Millions of movies are available to you. Explore now.' />
       
       <section className="trending">
         <h2>Trending</h2>
