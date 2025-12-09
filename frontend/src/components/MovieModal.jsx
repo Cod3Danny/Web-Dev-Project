@@ -142,7 +142,8 @@ const MovieModal = ({ filmType, movieId, onClose, onRemoved, movieLink }) => {
         const res = await removeItemFromWatchlist(user.username, link);
 
         setInWatchlist(false);
-        onRemoved?.(movieId, link);
+        onRemoved?.(link);
+        onClose();
         setActionMsg(res || "Removed from watchlist.");
       } catch (e) {
         setActionMsg("Failed to remove from watchlist.");
