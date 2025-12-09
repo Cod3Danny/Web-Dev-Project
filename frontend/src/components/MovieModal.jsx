@@ -17,6 +17,7 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
   const [userLoading, setUserLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
+  const [actionMsg, setActionMsg] = useState("");
 
   function getTrailer() {
     const filmTitle = movie.title ? movie.title : movie.name ? movie.name : 'N/A';
@@ -110,37 +111,45 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
   async function addToWatchList() {
     if (user && user.username) {
       if (inWatchlist) {
-        alert("Movie already in watchlist");
-      } else {
-        try{
-          setIsAdding(true);
-          const res = await addItemToWatchlist(user.username, link);
-          setInWatchlist(true);
-          alert(res);
-          window.location.reload();
-        } finally {
-          setIsAdding(false);
-        }
+        setActionMsg("Already in watchlist.");
+        return;
       }
-    }
-    else {
-      navigate('/login');
+
+      try {
+        setIsAdding(true);
+        setActionMsg("");
+
+        const res = await addItemToWatchlist(user.username, link);
+
+        setInWatchlist(true);
+        setActionMsg(res || "Added to watchlist.");
+      } catch (e) {
+        setActionMsg("Failed to add to watchlist.");
+      } finally {
+        setIsAdding(false);
+      }
+    } else {
+      navigate("/login");
     }
   }
 
   async function removeFromWatchlist() {
     if (user && user.username) {
       try {
-        setIsRemoving(true); 
+        setIsRemoving(true);
+        setActionMsg("");
+
         const res = await removeItemFromWatchlist(user.username, link);
+
         setInWatchlist(false);
-        alert(res);
-        window.location.reload();
+        setActionMsg(res || "Removed from watchlist.");
+      } catch (e) {
+        setActionMsg("Failed to remove from watchlist.");
       } finally {
         setIsRemoving(false);
       }
     } else {
-      navigate('/login');
+      navigate("/login");
     }
   }
 
@@ -194,13 +203,23 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
                         {movie.overview || "No overview available."}
                       </p>
                     </div>
+                    {actionMsg && <div className="action-msg">{actionMsg}</div>}
                     <div className="movie-actions">
-                      {inWatchlist ? (
-                        <button className="watchlist-btn" onClick={() => removeFromWatchlist()}>Remove From Watchlist</button>
-                      ) : (
-                        <button className="watchlist-btn" onClick={() => addToWatchList()}>Add to Watchlist</button>
-                      )}
-                      <button className='trailer-btn' onClick={() => getTrailer()}>▶️ Watch Trailer</button>
+                      <button
+                        className="watchlist-btn"
+                        onClick={inWatchlist ? removeFromWatchlist : addToWatchList}
+                        disabled={watchlistBtnDisabled}
+                      >
+                        {userLoading
+                          ? "Loading..."
+                          : inWatchlist
+                            ? (isRemoving ? "Removing..." : "Remove From Watchlist")
+                            : (isAdding ? "Adding..." : "Add to Watchlist")}
+                      </button>
+
+                      <button className="trailer-btn" onClick={() => getTrailer()}>
+                        ▶️ Watch Trailer
+                      </button>
                     </div>
                   </div>
 
