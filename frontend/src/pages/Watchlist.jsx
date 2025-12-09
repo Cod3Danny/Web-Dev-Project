@@ -125,7 +125,7 @@ const Watchlist = () => {
                             {error && <p>{error}</p>}
                             {isMoviesLoading && <p>Loading movies...</p>}
                             {!isMoviesLoading && watchlist.movies.length > 0 && movies.map((m, index) => (
-                                <MovieCard key={index} filmType='movie' movie={m} id={m.id} onRemoved={onRemoved} />
+                                <MovieCard key={index} filmType={m.__link?.includes("/tv/") ? "tv" : "movie"} movie={m} id={m.id} movieLink={m.__link} onRemoved={onRemoved} />
                             ))}
                             {!isMoviesLoading && watchlist.movies.length === 0 && (
                                 <p>no movies currently in watchlist</p>

@@ -4,7 +4,7 @@ import { addItemToWatchlist, getWatchlist, removeItemFromWatchlist } from "../se
 import { loadUser } from "../services/userServices";
 import "./MovieModal.css";
 
-const MovieModal = ({ filmType, movieId, onClose, onRemoved }) => {
+const MovieModal = ({ filmType, movieId, onClose, onRemoved, movieLink }) => {
   const apiKey = import.meta.env.VITE_TMDB_API_KEY;
   const [movie, setMovie] = useState(null);
   const [credits, setCredits] = useState(null);
