@@ -14,6 +14,10 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
   const [inWatchlist, setInWatchlist] = useState(false);
   const link = `https://api.themoviedb.org/3/${filmType}/${movieId}`;
 
+  const [userLoading, setUserLoading] = useState(true);
+  const [isAdding, setIsAdding] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+
   function getTrailer() {
     const filmTitle = movie.title ? movie.title : movie.name ? movie.name : 'N/A';
     const query = encodeURIComponent(`${filmTitle} official trailer`);
@@ -21,25 +25,38 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
   };
 
   useEffect(() => {
+    let ignore = false;
     async function fetchUser() {
-      const data = await loadUser();
-      setUser(data);
+      try{
+        setUserLoading(true);
+        const data = await loadUser();
+        if (!ignore) setUser(data); 
+      } finally {
+        if (!ignore) setUserLoading(false);
+      }
     }
 
     fetchUser();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   useEffect(() => {
+    let ignore = false;
     async function checkWatchlist() {
       if (user && user.username) {
         const watchlistData = await getWatchlist(user.username);
-        if (watchlistData && watchlistData.movies.includes(link)) {
+        if (!ignore && watchlistData && watchlistData.movies.includes(link)) {
           setInWatchlist(true);
         }
       }
     }
 
     checkWatchlist();
+    return () => {
+      ignore = true;
+    };
   }, [user, link]);
 
   useEffect(() => {
@@ -95,10 +112,15 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
       if (inWatchlist) {
         alert("Movie already in watchlist");
       } else {
-        const res = await addItemToWatchlist(user.username, link);
-        setInWatchlist(true);
-        alert(res);
-        window.location.reload();
+        try{
+          setIsAdding(true);
+          const res = await addItemToWatchlist(user.username, link);
+          setInWatchlist(true);
+          alert(res);
+          window.location.reload();
+        } finally {
+          setIsAdding(false);
+        }
       }
     }
     else {
@@ -108,14 +130,21 @@ const MovieModal = ({ filmType, movieId, onClose }) => {
 
   async function removeFromWatchlist() {
     if (user && user.username) {
-      const res = await removeItemFromWatchlist(user.username, link);
-      setInWatchlist(false);
-      alert(res);
-      window.location.reload();
+      try {
+        setIsRemoving(true); 
+        const res = await removeItemFromWatchlist(user.username, link);
+        setInWatchlist(false);
+        alert(res);
+        window.location.reload();
+      } finally {
+        setIsRemoving(false);
+      }
     } else {
       navigate('/login');
     }
   }
+
+  const watchlistBtnDisabled = userLoading || isAdding || isRemoving;
 
   return (
     <div className="modal">

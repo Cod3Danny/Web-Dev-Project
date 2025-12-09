@@ -11,53 +11,115 @@ const Watchlist = () => {
     const [movies, setMovies] = useState([]);
     const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 
+    // NEW: loading states
+    const [isUserLoading, setIsUserLoading] = useState(true);
+    const [isWatchlistLoading, setIsWatchlistLoading] = useState(false);
+    const [isMoviesLoading, setIsMoviesLoading] = useState(false);
+
+    // NEW: optional error message
+    const [error, setError] = useState("");
+
     useEffect(() => {
+
+        let ignore = false;
         async function fetchUser() {
+        try {
+            setIsUserLoading(true);
+            setError("");
             const data = await loadUser();
-            setUser(data);
+            if (!ignore) setUser(data);
+        } catch (e) {
+            if (!ignore) setError(e?.message || "Failed to load user.");
+        } finally {
+            if (!ignore) setIsUserLoading(false);
         }
+        }
+
         fetchUser();
+
+        return () => {
+        ignore = true;
+        };
     }, []);
 
     useEffect(() => {
+        let ignore = false;
+
         async function fetchWatchlist() {
-            if (user && user.username) {
-                const watchlistData = await getWatchlist(user.username);
-                setWatchlist(watchlistData);
+        if (user && user.username) {
+            try {
+            setIsWatchlistLoading(true);
+            setError("");
+            const watchlistData = await getWatchlist(user.username);
+            if (!ignore) setWatchlist(watchlistData);
+            } catch (e) {
+            if (!ignore) setError(e?.message || "Failed to load watchlist.");
+            } finally {
+            if (!ignore) setIsWatchlistLoading(false);
             }
         }
+        }
+
         fetchWatchlist();
+
+        return () => {
+        ignore = true;
+        };
     }, [user]);
 
     useEffect(() => {
+        let ignore = false;
+
         async function fetchMovies() {
-            if (!watchlist || !watchlist.movies) return;
+        if (!watchlist || !watchlist.movies) return;
+
+        try {
+            setIsMoviesLoading(true);
+            setError("");
 
             const movieData = await Promise.all(
-                watchlist.movies.map(async (link) => {
-                    const res = await fetch(
-                        `${link}?api_key=${apiKey}`
-                    );
-                    return await res.json();
-                })
+            watchlist.movies.map(async (link) => {
+                const res = await fetch(`${link}?api_key=${apiKey}`);
+                return await res.json();
+            })
             );
-            setMovies(movieData);
+
+            if (!ignore) setMovies(movieData);
+        } catch (e) {
+            if (!ignore) setError(e?.message || "Failed to load movies from TMDB.");
+        } finally {
+            if (!ignore) setIsMoviesLoading(false);
+        }
         }
 
         fetchMovies();
-    }, [watchlist]);
+
+        return () => {
+        ignore = true;
+        };
+    }, [watchlist, apiKey]);
+
+    // NEW: Masthead loading
+    const isMastheadLoading = isUserLoading || (user && isWatchlistLoading);
 
     return (
         <>
+            {isMastheadLoading && (
+                <div className="movies-page">
+                    <Masthead title="Loading watchlist..." />
+                </div>
+            )}
             {
-                watchlist && (
+                !isMastheadLoading && watchlist && (
                     <div className="movies-page">
                         <Masthead title={`${watchlist.username}'s Watchlist`} />
                         <section className="movie-grid">
-                            {watchlist.movies.length > 0 && movies.map((m, index) => (
+                            {error && <p>{error}</p>}
+                            {isMoviesLoading && <p>Loading movies...</p>}
+                            {!isMoviesLoading && watchlist.movies.length > 0 && movies.map((m, index) => (
                                 <MovieCard key={index} filmType='movie' movie={m} id={m.id} />
                             ))}
-                            {watchlist.movies.length === 0 && (
+                            {!isMoviesLoading && watchlist.movies.length === 0 && (
                                 <p>no movies currently in watchlist</p>
                             )}
                         </section>
@@ -66,7 +128,7 @@ const Watchlist = () => {
                 )
             }
             {
-                !watchlist && (
+                !isMoviesLoading && !watchlist && (
                     <Masthead title={`Please Login First.`} />
                 )
             }
