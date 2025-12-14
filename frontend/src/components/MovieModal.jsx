@@ -143,6 +143,7 @@ const MovieModal = ({ filmType, movieId, onClose, onRemoved, movieLink }) => {
 
         setInWatchlist(false);
         onRemoved?.(link);
+        window.location.reload();
         setActionMsg(res || "Removed from watchlist.");
       } catch (e) {
         setActionMsg("Failed to remove from watchlist.");
